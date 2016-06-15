@@ -39,7 +39,7 @@
 
 
 					<p class="text-center">
-						<button type="submit" class="btn btn-success btn-lg">Submit</button>
+						<button type="submit" class="btn btn-success btn-lg" onclick="this.value='Submitting ..';this.disabled='disabled'; this.form.submit();">Submit</button>
 					</p>
 
 				</form>

@@ -138,8 +138,8 @@ public class GetData extends HttpServlet {
 			List<String> childList=getChildList(bugNo);
 			bug.setBase(getBase(bugNo));
 			bug.setBranchs(getCommitedBranch(bugNo));
-			bug.setBranchFilesMap(getCommitedBranchFiles(bugNo));
-			bug.setFilesCount(getAffectedFilesCount(bugNo));
+			//bug.setBranchFilesMap(getCommitedBranchFiles(bugNo));
+			//bug.setFilesCount(getAffectedFilesCount(bugNo));
 			bug.setParent(childList.size()>0);
 			
 			if(bug.getBase()!=null){
@@ -147,8 +147,8 @@ public class GetData extends HttpServlet {
 				List<Bug> childBugs=new ArrayList<Bug>();
 				for (String ch : childs) {
 					Bug chBug=new Bug(ch);
-					chBug.setBranchFilesMap(getCommitedBranchFiles(ch));
-					chBug.setFilesCount(getAffectedFilesCount(ch));
+					//chBug.setBranchFilesMap(getCommitedBranchFiles(ch));
+					//chBug.setFilesCount(getAffectedFilesCount(ch));
 					//chBug.setParent(getChildList(ch).size()>0);
 					chBug.setBranchs(getCommitedBranch(ch));
 					childBugs.add(chBug);
@@ -161,16 +161,16 @@ public class GetData extends HttpServlet {
 			
 			
 			bug.setBranchs(getCommitedBranch(bugNo));
-			bug.setBranchFilesMap(getCommitedBranchFiles(bugNo));
-			bug.setFilesCount(getAffectedFilesCount(bugNo));
+			//bug.setBranchFilesMap(getCommitedBranchFiles(bugNo));
+			//bug.setFilesCount(getAffectedFilesCount(bugNo));
 			bug.setParent(childList.size()>0);
 			if(bug.isParent()){
 				List<String>childs=childList;
 				List<Bug> childBugs=new ArrayList<Bug>();
 				for (String ch : childs) {
 					Bug chBug=new Bug(ch);
-					chBug.setBranchFilesMap(getCommitedBranchFiles(ch));
-					chBug.setFilesCount(getAffectedFilesCount(ch));
+					//chBug.setBranchFilesMap(getCommitedBranchFiles(ch));
+					//chBug.setFilesCount(getAffectedFilesCount(ch));
 					//chBug.setParent(getChildList(ch).size()>0);
 					chBug.setBranchs(getCommitedBranch(ch));
 					childBugs.add(chBug);
@@ -303,7 +303,7 @@ public class GetData extends HttpServlet {
 		return map;
 	}*/
 	
-	private int getAffectedFilesCount(String bug){
+	/*private int getAffectedFilesCount(String bug){
 		int count=0;
 		String text="";
 		try {
@@ -322,7 +322,7 @@ public class GetData extends HttpServlet {
 	         
 	          }
 		return count;
-	}
+	}*/
 	/*private Map<String,Map<String,ArrayList<String>>> getCommitedBranchFilesMap(Map<String,String> textMap) {
 		Map<String,Map<String,ArrayList<String>>> map=new HashMap<>();
 		Map<String,ArrayList<String>> fileMap=new HashMap<>();
@@ -336,7 +336,7 @@ public class GetData extends HttpServlet {
 	
 
 	
-	private Map<String,ArrayList<String>> getCommitedBranchFiles(String bug){
+	/*private Map<String,ArrayList<String>> getCommitedBranchFiles(String bug){
 		
 		String text="";
 		try {
@@ -367,7 +367,7 @@ public class GetData extends HttpServlet {
           }
 		return map;
 		
-	}
+	}*/
 private Set<String>getCommitedBranch(String bug){
 	
 	String branch=null;

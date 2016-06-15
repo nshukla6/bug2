@@ -1,14 +1,12 @@
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class Bug {
 	private String bugNo;
-	private int filesCount;
+	//private int filesCount;
 	private List<Bug> childs;
 	private boolean isParent;
-	private Map<String,ArrayList<String>>branchFilesMap;
+	//private Map<String,ArrayList<String>>branchFilesMap;
 	private Set<String>branchs;
 	private Bug base;
 	private List<Bug>baseChilds;
@@ -24,7 +22,7 @@ public class Bug {
 		return bugNo;
 	}
 	
-	public Map<String, ArrayList<String>> getBranchFilesMap() {
+	/*public Map<String, ArrayList<String>> getBranchFilesMap() {
 		return branchFilesMap;
 	}
 	public void setBranchFilesMap(Map<String, ArrayList<String>> branchFilesMap) {
@@ -35,7 +33,7 @@ public class Bug {
 	}
 	public void setFilesCount(int filesCount) {
 		this.filesCount = filesCount;
-	}
+	}*/
 	public List<Bug> getChilds() {
 		return childs;
 	}
@@ -79,12 +77,12 @@ public class Bug {
 
 	
 	
-	@Override
+	/*@Override
 	public String toString() {
 		return "Bug [bugNo=" + bugNo + ", filesCount=" + filesCount + ", childs=" + childs + ", isParent=" + isParent
 				+ ", branchFilesMap=" + branchFilesMap + ", branchs=" + branchs + ", base=" + base + ", baseChilds="
 				+ baseChilds + "]";
-	}
+	}*/
 
 	
 
