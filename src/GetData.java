@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(description = "get the bugzilla data", urlPatterns = { "/GetData" })
 public class GetData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Connection con = null;
+	
 	private ResultSet resultSet=null;
 	private PreparedStatement preparedStatement=null;
 	private  Set<String> totalBugSet=new HashSet<String>();
@@ -105,6 +105,7 @@ public class GetData extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		System.out.println("inside service");
 		branchs=new HashSet<>();
+		Connection con = null;
 		String product=(String)request.getParameter("product");
 		String email=(String)request.getParameter("email");
 		String version=(String)request.getParameter("version");
@@ -128,29 +129,29 @@ public class GetData extends HttpServlet {
 		List<String> list;
 		
 		try {
-			list = getBugList(queryAllBugs,product,email,version);
+			list = getBugList(con,queryAllBugs,product,email,version);
 			for (String bugNo : list) {
 				
 				
 			
 			
 			Bug bug=new Bug(bugNo);
-			List<String> childList=getChildList(bugNo);
-			bug.setBase(getBase(bugNo));
-			bug.setBranchs(getCommitedBranch(bugNo));
+			List<String> childList=getChildList(con,bugNo);
+			bug.setBase(getBase(con,bugNo));
+			bug.setBranchs(getCommitedBranch(con,bugNo));
 			//bug.setBranchFilesMap(getCommitedBranchFiles(bugNo));
 			//bug.setFilesCount(getAffectedFilesCount(bugNo));
 			bug.setParent(childList.size()>0);
 			
 			if(bug.getBase()!=null){
-				List<String>childs=getBaseChildList(bug.getBase().getBugNo());
+				List<String>childs=getBaseChildList(con,bug.getBase().getBugNo());
 				List<Bug> childBugs=new ArrayList<Bug>();
 				for (String ch : childs) {
 					Bug chBug=new Bug(ch);
 					//chBug.setBranchFilesMap(getCommitedBranchFiles(ch));
 					//chBug.setFilesCount(getAffectedFilesCount(ch));
 					//chBug.setParent(getChildList(ch).size()>0);
-					chBug.setBranchs(getCommitedBranch(ch));
+					chBug.setBranchs(getCommitedBranch(con,ch));
 					childBugs.add(chBug);
 				}
 				bug.setBaseChilds(childBugs);
@@ -160,7 +161,7 @@ public class GetData extends HttpServlet {
 			
 			
 			
-			bug.setBranchs(getCommitedBranch(bugNo));
+			bug.setBranchs(getCommitedBranch(con,bugNo));
 			//bug.setBranchFilesMap(getCommitedBranchFiles(bugNo));
 			//bug.setFilesCount(getAffectedFilesCount(bugNo));
 			bug.setParent(childList.size()>0);
@@ -172,7 +173,7 @@ public class GetData extends HttpServlet {
 					//chBug.setBranchFilesMap(getCommitedBranchFiles(ch));
 					//chBug.setFilesCount(getAffectedFilesCount(ch));
 					//chBug.setParent(getChildList(ch).size()>0);
-					chBug.setBranchs(getCommitedBranch(ch));
+					chBug.setBranchs(getCommitedBranch(con,ch));
 					childBugs.add(chBug);
 				}
 				bug.setChilds(childBugs);
@@ -184,7 +185,7 @@ public class GetData extends HttpServlet {
 			bugList.add(bug);
 			//System.out.println(bug);
 			}
-			con.close();
+			//con.close();
 			request.setAttribute("email", email);
 			request.setAttribute("product", product);
 			request.setAttribute("fixBy", version);
@@ -214,7 +215,7 @@ public class GetData extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	private List<String> getBugList(String query,String product,String email,String version) throws SQLException {
+	private List<String> getBugList(Connection con,String query,String product,String email,String version) throws SQLException {
 		List<String> bugList=new ArrayList<>();
 		preparedStatement = con.prepareStatement(query);
 		
@@ -232,7 +233,7 @@ public class GetData extends HttpServlet {
 	    return bugList;
 	  }
 	
-	private  List<String> getChildList(String bug) throws SQLException{
+	private  List<String> getChildList(Connection con,String bug) throws SQLException{
 	    
 	   
 		String childQuery=new StringBuilder().append("SELECT child from related where base=?").toString();
@@ -263,7 +264,7 @@ public class GetData extends HttpServlet {
 		
 	}
 	
-	private String getText(String bug) throws SQLException{
+	private String getText(Connection con,String bug) throws SQLException{
 		
 		 
 		 String theTextQuery=new StringBuilder().append("SELECT thetext from longdescs where bug_id=? and thetext like ?").toString();
@@ -368,12 +369,12 @@ public class GetData extends HttpServlet {
 		return map;
 		
 	}*/
-private Set<String>getCommitedBranch(String bug){
+private Set<String>getCommitedBranch(Connection con,String bug){
 	
 	String branch=null;
 		String text="";
 		try {
-			text = getText(bug);
+			text = getText(con,bug);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -400,7 +401,7 @@ private Set<String>getCommitedBranch(String bug){
 		
 	}
 
-private  Bug getBase(String bug) throws SQLException{
+private  Bug getBase(Connection con,String bug) throws SQLException{
     
 	String baseBug=null;
 	String baseQuery=new StringBuilder().append("SELECT base from related where child=?").toString();
@@ -426,7 +427,7 @@ private  Bug getBase(String bug) throws SQLException{
 	
 	
 }
-private  List<String> getBaseChildList(String bug) throws SQLException{
+private  List<String> getBaseChildList(Connection con,String bug) throws SQLException{
     
 	   
 	String childQuery=new StringBuilder().append("SELECT child from related where base=?").toString();

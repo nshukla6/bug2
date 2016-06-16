@@ -35,7 +35,7 @@
 
           <p class="input-group ">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th-list"></span></span>
-						<input type="text" required class="form-control input-lg" name="version" placeholder="x.x.x" />
+						<input type="text" required class="form-control input-lg" name="version" placeholder="fixed by version" />
 					</p>
 
 
