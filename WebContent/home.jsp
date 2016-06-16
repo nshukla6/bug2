@@ -11,6 +11,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Abel|Open+Sans:400,600" rel="stylesheet" />
 	<link rel="icon" href="/images/favicon.jpg" type="image/x-icon"/>
 	<link href="/css/registrationForm.css" rel="stylesheet">
+	<link rel="shortcut icon" href="images/favicon.ico" />
 
 </head>
 <body>
