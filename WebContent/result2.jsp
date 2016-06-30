@@ -3,32 +3,50 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+
+
+
+
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
 <link href="css/tool.css" rel="stylesheet" type="text/css">
 <link rel="shortcut icon" href="images/favicon.ico" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<title>Bug-Information</title>
+<title>Report</title>
 </head>
 <body>
- <%
-        String exportToExcel = request.getParameter("exportToExcel");
-        if (exportToExcel != null
-                && exportToExcel.toString().equalsIgnoreCase("YES")) {
-            response.setContentType("application/vnd.ms-excel");
-            response.setHeader("Content-Disposition", "attachment;filename=myExcel.xls");
- 
-        }
-    %>
 
+<script type="text/javascript">
+$(document).ready(function()
+		{
+	$('#report td').each(function()
+			{
+			 if($(this).text()){
+				
+				 $('td').css('background-color','red');
+				 
+			 }
+			});
+	
+	
+		});
 
+</script>
 
 
  <%@ include file="/navbar/head.html" %>
 <center><h3><c:out value="${email}"/> report in product <c:out value="${product}"/> for fixed by <c:out value="${fixBy}"/> </h3></center>
-<div align="center">
-        <table border="2" cellpadding="10">
-           
-            <tr bgcolor="yellow">
+
+
+        <table id="report" align="center" border="2" cellpadding="10">
+          <thead>
+            <tr>
                 <th>Bug</th>
                 <th>Base</th>
                 
@@ -36,6 +54,8 @@
                  <th><c:out value="${branch}"/></th>
      				</c:forEach>
             </tr>
+            </thead>
+            
             
             <c:forEach var="bug" items="${bugList}" varStatus="loop">
                 <tr class="${loop.index % 2 == 0 ? 'even' : 'odd'}">
@@ -95,20 +115,16 @@
                     </tr>
          </c:forEach>
     
-		                         
+		               
             </table>
-            </div>
+
+       
             
-           
 
-
-
-
-
-     				
-
- <!--   <a href="result2.jsp?exportToExcel=YES">Export to Excel</a>  --> 
-    
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
 
 </body>
 </html>

@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class GetData
  */
-@WebServlet(description = "get the bugzilla data", urlPatterns = { "/GetData" })
-public class GetData extends HttpServlet {
+@WebServlet(description = "get the bugzilla data", urlPatterns = { "/GetDetailData" })
+public class GetDetailData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private ResultSet resultSet=null;
@@ -32,12 +32,21 @@ public class GetData extends HttpServlet {
 	
 	
 	
-
+	/*String queryAllBugs = new StringBuilder()
+	           .append("SELECT b.bug_id FROM bugs b ")
+	           .append("JOIN profiles p ON p.userid=b.assigned_to ")
+	           .append("JOIN products pr ON pr.id=b.found_in_product_id ")
+	           .append("JOIN versions v ON v.id=b.found_in_version_id ")
+	           .append("WHERE pr.name=? and p.login_name=? and v.name=? ")
+	           .append("and b.resolution ='fixed' and b.bug_status in ('closed','resolved') ")
+	           .toString();*/
+	
 	String queryAllBugs=new StringBuilder()
 			.append("SELECT b.bug_id FROM bugs b ")
 			.append("JOIN profiles p ON p.userid=b.assigned_to ")
-			.append("where b.resolution ='fixed' ")
-			.append(" and b.bug_status in ('closed','resolved') ")
+			.append("where p.login_name=? ")
+			.append("and b.resolution ='fixed' ")
+			.append("and b.bug_status in ('closed','resolved') ")
 			.append("and b.bug_id in ( ")
 			.append("SELECT bug_id from bug_fix_by_map bmap ")
 			.append("join versions v  on v.id = bmap.version_id ")
@@ -47,16 +56,17 @@ public class GetData extends HttpServlet {
 	
 	
 	
-
-
-    /**
-     * Default constructor. 
-     * @throws UnavailableException 
-     */
-    public GetData() throws UnavailableException {
-        // TODO Auto-generated constructor stub
+	
+	 
     
-    }
+   
+      
+   
+            
+
+
+
+
 
 	/**
 	 * @see Servlet#init(ServletConfig)
@@ -198,9 +208,9 @@ public class GetData extends HttpServlet {
 		List<String> bugList=new ArrayList<>();
 		preparedStatement = con.prepareStatement(query);
 		
-		//preparedStatement.setString(1, email);//get from req
-	    preparedStatement.setString(1, product);//get from req
-	    preparedStatement.setString(2, version);//get from req
+		preparedStatement.setString(1, email);//get from req
+	    preparedStatement.setString(2, product);//get from req
+	    preparedStatement.setString(3, version);//get from req
 	    
 	    resultSet = preparedStatement.executeQuery();
 	    while (resultSet.next()) {

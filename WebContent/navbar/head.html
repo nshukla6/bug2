@@ -1,28 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bug-Villa</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<title>CRT</title>
+<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	
+	
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/bug-villa/home.jsp">Bug-Villa</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="/bug-villa/home.jsp">Home</a></li>
-      
-    </ul>
-  </div>
-</nav>
-  
+<!-- Modal -->
+<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Query Bugzilla</h4>
+      </div>
+      <div class="modal-body">
+       <form class="margin-base-vertical" method="post" action="GetDetailData">
+					<p class="input-group ">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-cloud"></span></span>
+						<input	type="text" required="true" name="product" class="form-control input-sm" id="product" placeholder="Product">
+					</p>
 
+          <p class="input-group ">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+						<input type="text" required="true" required class="form-control input-sm" name="email" placeholder="nitins" />
+					</p>
+
+          <p class="input-group ">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-th-list"></span></span>
+						<input type="text" required="true" required class="form-control input-sm" name="version" placeholder="fixed by version" />
+					</p>
+
+		  <p class="text-center">
+						<button type="submit" class="btn btn-success btn-lg" onclick="this.value='Submitting ..';this.disabled='disabled'; this.form.submit();">Submit</button>
+					</p>
+					
+
+				</form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- Nav bar -->
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/bug-villa/home.jsp"><img
+					src="images/CRT.jpg" height=50 width=100></a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/bug-villa/home.jsp"><span
+						class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
+						<li>
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm">
+ Individual Search
+</button>
+
+</li>
+		
+			
+</ul>
+			<form class="navbar-form pull-right"  method="post" action="GetData">
+				<div class="form-group">
+					 <input	type="text" required="true" name="product" class="form-control" id="product" placeholder="Product">
+				</div>
+				<div class="form-group">
+					<input type="text" required="true" name="version" class="form-control" id="fixBy"	placeholder="Fixed by">
+				</div>
+
+				<button type="submit" onclick="this.value='Submitting ..';this.disabled='disabled'; this.form.submit();" class="btn btn-danger">Search</button>
+			</form>
+		</div>
+	</nav>
 
 </body>
 </html>
