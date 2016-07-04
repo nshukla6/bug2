@@ -10,6 +10,11 @@ public class Bug {
 	private Set<String>branchs;
 	private Bug base;
 	private List<Bug>baseChilds;
+	private String assignee;
+
+
+	
+
 
 
 	Bug(String bugNo){
@@ -72,6 +77,15 @@ public class Bug {
 
 	public void setBaseChilds(List<Bug> baseChilds) {
 		this.baseChilds = baseChilds;
+	}
+	public String getAssignee() {
+		return assignee;
+	}
+
+
+
+	public void setAssignee(String assignee) {
+		this.assignee = assignee;
 	}
 
 

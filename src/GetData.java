@@ -121,6 +121,7 @@ public class GetData extends HttpServlet {
 			//bug.setBranchFilesMap(getCommitedBranchFiles(bugNo));
 			//bug.setFilesCount(getAffectedFilesCount(bugNo));
 			bug.setParent(childList.size()>0);
+			bug.setAssignee(getAssignee(con, bugNo));
 			
 			if(bug.getBase()!=null){
 				List<String>childs=getBaseChildList(con,bug.getBase().getBugNo());
@@ -406,6 +407,27 @@ private  Bug getBase(Connection con,String bug) throws SQLException{
 	
 	
 }
+
+private String getAssignee(Connection con,String bug)throws SQLException{
+	
+	String assignee=null;
+	String baseQuery=new StringBuilder().append("SELECT p.realname FROM profiles p JOIN bugs b ON p.userid=b.assigned_to where b.bug_id=?").toString();
+	preparedStatement = con.prepareStatement(baseQuery);
+	preparedStatement.setString(1,bug);
+    resultSet = preparedStatement.executeQuery();
+    if(resultSet!=null)
+    resultSet.next();
+	      
+	      assignee = resultSet.getString("realname");
+	      
+	      
+	      
+	    
+      
+	return assignee;
+	
+}
+
 private  List<String> getBaseChildList(Connection con,String bug) throws SQLException{
     
 	   
