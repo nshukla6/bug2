@@ -1,7 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-<title>CRT</title>
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,27 +19,44 @@
         width:228px;
         height:30px;
     }
-</style>	
-	
+</style>
+<title>Insert title here</title>
 </head>
 <body>
 <script type="text/javascript">
 
 	$(document).ready(function() {
+		
 		$('#product').change(function(event) {
-			alert("hello");
 			var $product = $("select#product").val();
 			$.get('ActionServlet', {
 				productName : $product
 			}, function(responseJson) {
-				var $select = $('#fixedBy');
+				var $select = $('#version');
 				$select.find('option').remove();
 				$.each(responseJson, function(key, value) {
-					$('<option>').val(key).text(value).appendTo($select);
+					$('<option>').text(value).appendTo($select);
 				});
 			});
 		});
-	});Â Â Â Â Â 
+		
+		
+		$('#product1').change(function(event) {
+			var $product = $("select#product1").val();
+			$.get('ActionServlet', {
+				productName : $product
+			}, function(responseJson) {
+				var $select = $('#version1');
+				$select.find('option').remove();
+				$.each(responseJson, function(key, value) {
+					$('<option>').text(value).appendTo($select);
+				});
+			});
+		});
+		
+		
+		
+	});     
 </script>
 
 <!-- Modal -->
@@ -53,7 +71,8 @@
        <form class="margin-base-vertical" method="post" action="GetDetailData">
 					<p class="input-group ">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-cloud"></span></span>
-							<select name="Product" id="product">
+							<select name="product" id="product">
+							<option>Product</option>
 							<option value="cloud">cloud</option>
 							<option value="vpx">vpx</option>
 							</select>
@@ -67,7 +86,7 @@
           <p class="input-group ">
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th-list"></span></span>
 						
-      						 <select id="fixedBy">
+      						 <select name="version" id="version">
              				<option>FixedBy</option>
 							</select>
 							</p>
@@ -106,17 +125,21 @@
 </ul>
 			<form class="navbar-form pull-right"  method="post" action="GetData">
 				<div class="form-group">
-					 <input	type="text" required="true" name="product" class="form-control" id="product" placeholder="Product">
+					 <select name="product" id="product1">
+							<option>Product</option>
+							<option value="cloud">cloud</option>
+							<option value="vpx">vpx</option>
+							</select>
 				</div>
 				<div class="form-group">
-					<input type="text" required="true" name="version" class="form-control" id="fixBy"	placeholder="Fixed by">
+					<select name="version" id="version1">
+             				<option>FixedBy</option>
+							</select>
 				</div>
 
 				<button type="submit" onclick="this.value='Submitting ..';this.disabled='disabled'; this.form.submit();" class="btn btn-danger">Search</button>
 			</form>
 		</div>
 	</nav>
-
 </body>
 </html>
-

@@ -21,7 +21,7 @@
 
 </head>
 <body>
- <%@ include file="/navbar/head.html" %>
+ <%@ include file="/navbar/head.jsp" %>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

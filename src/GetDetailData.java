@@ -97,7 +97,7 @@ public class GetDetailData extends HttpServlet {
 		Connection con = null;
 		String product=(String)request.getParameter("product");
 		String email=(String)request.getParameter("email");
-		String version=(String)request.getParameter("version");
+		String version=request.getParameter("version");
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");

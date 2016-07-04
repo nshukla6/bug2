@@ -132,7 +132,7 @@ $(document).ready(function()
 </script>
 
 
- <%@ include file="/navbar/head.html" %>
+ <%@ include file="/navbar/head.jsp" %>
  <div class='button'>
                 <a href="#" id ="export" role='button'>Export As CSV
                 </a>
