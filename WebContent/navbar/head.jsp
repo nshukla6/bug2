@@ -75,6 +75,7 @@
 							<option>Product</option>
 							<option value="cloud">cloud</option>
 							<option value="vpx">vpx</option>
+							<option value="vSphere">vSphere</option>
 							</select>
 					</p>
 
@@ -87,7 +88,7 @@
 						<span class="input-group-addon"><span class="glyphicon glyphicon-th-list"></span></span>
 						
       						 <select name="version" id="version">
-             				<option>FixedBy</option>
+             				<option>Fixed By</option>
 							</select>
 							</p>
 
@@ -105,7 +106,7 @@
 
 <!-- Nav bar -->
 
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="/bug-villa/home.jsp"><img
@@ -129,11 +130,13 @@
 							<option>Product</option>
 							<option value="cloud">cloud</option>
 							<option value="vpx">vpx</option>
+							<option value="vSphere">vSphere</option>
+							
 							</select>
 				</div>
 				<div class="form-group">
 					<select name="version" id="version1">
-             				<option>FixedBy</option>
+             				<option>Fixed By</option>
 							</select>
 				</div>
 

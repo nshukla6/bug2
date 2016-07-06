@@ -27,15 +27,27 @@
 $(document).ready(function()
 		{
 	
-	$('#report td').each(function()
+	$().each(function()
 			{
 		$(this).text( $.trim( $(this).text() ) )
-			if($(this).text()==''){
-				$(this).css('backgroundColor', 'red');	 
+			if($(this).text()!==''){
+				count=count+1;
+				//$(this).css('backgroundColor', 'red');	 
 			}
-			
+		
 			 
 			});
+	
+
+	
+	$("tr").not(':first').hover(
+			  function () {
+			    $(this).css("background","yellow");
+			  }, 
+			  function () {
+			    $(this).css("background","");
+			  }
+			);
 	
 	
 	
@@ -115,7 +127,7 @@ $(document).ready(function()
 	  
       $("#export").click(function (event) {
           // var outputFile = 'export'
-         var outputFile = window.prompt("What do you want to name your output file ") || 'export';
+         var outputFile = window.prompt("What do you want to name your output file ");
           
           outputFile = outputFile.replace('.csv','') + '.csv'
            
@@ -133,17 +145,19 @@ $(document).ready(function()
 
 
  <%@ include file="/navbar/head.jsp" %>
- <div class='button'>
+ <br><br><br><br>
+ <div class='btn btn-warning'>
                 <a href="#" id ="export" role='button'>Export As CSV
                 </a>
             </div> 
+          
             
 <center><h3><strong><c:out value="${email}"/></strong> report in product <strong><c:out value="${product}"/></strong> for fixed by <strong><c:out value="${fixBy}"/></strong> </h3></center>
 
  <div id="dvData">
-        <table class="head" id="report" align="center" border="2" cellpadding="10">
+        <table class="table table-striped table-bordered " id="report" align="center" border="2" cellpadding="10">
           <thead>
-            <tr>
+            <tr  class="danger">
                 <th>Bug</th>
                 <th>Assignee</th>
                 <th>Base</th>
@@ -154,7 +168,7 @@ $(document).ready(function()
             </tr>
             </thead>
             
-           
+           <tbody>
             <c:forEach var="bug" items="${bugList}" varStatus="loop">
             
                 <tr class="${loop.index % 2 == 0 ? 'even' : 'odd'}">
@@ -216,6 +230,7 @@ $(document).ready(function()
                    
                   
          </c:forEach>
+         </tbody>
     
 		               
             </table>

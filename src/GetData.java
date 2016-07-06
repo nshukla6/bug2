@@ -43,6 +43,7 @@ public class GetData extends HttpServlet {
 			.append("join versions v  on v.id = bmap.version_id ")
 			.append("join products pr ON pr.id=bmap.product_id ")
 			.append("where pr.name=? and v.name=? ) ")
+			.append("and b.cf_type IN ('Defect','Feature')")
 			.toString();
 	
 	
@@ -124,6 +125,7 @@ public class GetData extends HttpServlet {
 			bug.setAssignee(getAssignee(con, bugNo));
 			
 			if(bug.getBase()!=null){
+				bug.getBase().setBranchs(getCommitedBranch(con,bug.getBase().getBugNo()));
 				List<String>childs=getBaseChildList(con,bug.getBase().getBugNo());
 				List<Bug> childBugs=new ArrayList<Bug>();
 				for (String ch : childs) {
