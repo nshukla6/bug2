@@ -27,18 +27,20 @@
 $(document).ready(function()
 		{
 	
-	$().each(function()
+	$(function () {
+		  $('[data-toggle="tooltip"]').tooltip()
+		})
+	
+	$('table td').each(function()
 			{
 		$(this).text( $.trim( $(this).text() ) )
-			if($(this).text()!==''){
-				count=count+1;
-				//$(this).css('backgroundColor', 'red');	 
-			}
-		
-			 
+						 
 			});
 	
-
+	
+	
+	
+	
 	
 	$("tr").not(':first').hover(
 			  function () {
@@ -49,95 +51,80 @@ $(document).ready(function()
 			  }
 			);
 	
-	
-	
-	
 	function exportTableToCSV($table, filename) {
-		//alert("inside fn");
         var $headers = $table.find('tr:has(th)')
             ,$rows = $table.find('tr:has(td)')
-
             // Temporary delimiter characters unlikely to be typed by keyboard
             // This is to avoid accidentally splitting the actual contents
             ,tmpColDelim = String.fromCharCode(11) // vertical tab character
             ,tmpRowDelim = String.fromCharCode(0) // null character
-
             // actual delimiter characters for CSV format
             ,colDelim = '","'
             ,rowDelim = '"\r\n"';
-
             // Grab text from table into CSV formatted string
             var csv = '"';
             csv += formatRows($headers.map(grabRow));
             csv += rowDelim;
             csv += formatRows($rows.map(grabRow)) + '"';
-
             // Data URI
             var csvData = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csv);
-            //alert("csv data"+csv);
-            //alert("filename "+filename);
-
-        // For IE (tested 10+)
-        if (window.navigator.msSaveOrOpenBlob) {
-        	//alert("IE");
-            var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
-                type: "text/csv;charset=utf-8;"
-            });
-            navigator.msSaveBlob(blob, filename);
-        } else {
-        	//alert("else IE");
-            $(this)
-                .attr({
-                    'download': filename
-                    ,'href': csvData
-                    ,'target' : '_blank' //if you want it to open in a new window
-            });
-        }
+        $(this)
+            .attr({
+            'download': filename
+                ,'href': csvData
+                //,'target' : '_blank' //if you want it to open in a new window
+        });
+        
+        //------------------------------------------------------------
+        // Helper Functions 
+        //------------------------------------------------------------
+        // Format the output so it has the appropriate delimiters
         function formatRows(rows){
-        	
             return rows.get().join(tmpRowDelim)
                 .split(tmpRowDelim).join(rowDelim)
                 .split(tmpColDelim).join(colDelim);
         }
         // Grab and format a row from the table
         function grabRow(i,row){
-        	
              
             var $row = $(row);
             //for some reason $cols = $row.find('td') || $row.find('th') won't work...
             var $cols = $row.find('td'); 
             if(!$cols.length) $cols = $row.find('th');  
-
             return $cols.map(grabCol)
                         .get().join(tmpColDelim);
         }
         // Grab and format a column from the table 
         function grabCol(j,col){
-        	
             var $col = $(col),
                 $text = $col.text();
-
             return $text.replace('"', '""'); // escape double quotes
-
         }
+    }
+	// This must be a hyperlink
+    $("#export").click(function (event) {
+        // var outputFile = 'export'
+        var outputFile = window.prompt("Enter the name of File") || 'export';
+        outputFile = outputFile.replace('.csv','') + '.csv'
+         
+        // CSV
+        exportTableToCSV.apply(this, [$('#dvData>table'), outputFile]);
+        
+        // IF CSV, don't do event.preventDefault() or return false
+        // We actually need this to be a typical hyperlink
+    });
 	
 	
-	}
+	
+	
+	
+	
 	
 	  
-      $("#export").click(function (event) {
-          // var outputFile = 'export'
-         var outputFile = window.prompt("What do you want to name your output file ");
-          
-          outputFile = outputFile.replace('.csv','') + '.csv'
-           
-          // CSV
-          exportTableToCSV.apply(this, [$('#dvData > table'), outputFile]);
-          
-          // IF CSV, don't do event.preventDefault() or return false
-          // We actually need this to be a typical hyperlink
-      });
+     
+      
 		});
+
 
 
 
@@ -146,29 +133,29 @@ $(document).ready(function()
 
  <%@ include file="/navbar/head.jsp" %>
  <br><br><br><br>
- <div class='btn btn-warning'>
-                <a href="#" id ="export" role='button'>Export As CSV
+ <div class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Export the data in Excel">
+                <a href="#" id ="export" role='button'>Export CSV
                 </a>
-            </div> 
+            </div>
+ 
           
             
-<center><h3><strong><c:out value="${email}"/></strong> report in product <strong><c:out value="${product}"/></strong> for fixed by <strong><c:out value="${fixBy}"/></strong> </h3></center>
+<center><h3><strong><em><c:out value="${email}"/></em></strong><small><strong> report in product</strong> </small> <strong><em><c:out value="${product}"/></em></strong><small><strong>   for fixed by</strong> </small>  <strong><em><c:out value="${fixBy}"/></em></strong> </h3></center>
 
  <div id="dvData">
-        <table class="table table-striped table-bordered " id="report" align="center" border="2" cellpadding="10">
-          <thead>
-            <tr  class="danger">
-                <th>Bug</th>
-                <th>Assignee</th>
-                <th>Base</th>
+        <table class="table table-striped table-bordered " id="report">
+          
+            <tr class="danger">
+                <th><a href="#" data-toggle="tooltip" title="Bug Numbers">Bug</a></th>
+                <th><a href="#" data-toggle="tooltip" title="Fixed By Person">Asignee</a></th>
+                <th><a href="#" data-toggle="tooltip" title="Base Bug Number">Base</a></th>
                 
                 <c:forEach items="${branchs}" var="branch" >		
-                 <th><c:out value="${branch}"/></th>
+                 <th><a href="#" data-toggle="tooltip" title="Code checked-in Branch"><c:out value="${branch}"/></a></th>
      				</c:forEach>
             </tr>
-            </thead>
             
-           <tbody>
+            
             <c:forEach var="bug" items="${bugList}" varStatus="loop">
             
                 <tr class="${loop.index % 2 == 0 ? 'even' : 'odd'}">
@@ -230,7 +217,7 @@ $(document).ready(function()
                    
                   
          </c:forEach>
-         </tbody>
+         
     
 		               
             </table>
